@@ -13,7 +13,6 @@ body {
 
 .main-content {
   padding-top: 70px; /* espacio por el topbar fijo */
-  max-width: 1200px;
   width: 100%;
 }
 

@@ -1,5 +1,5 @@
 function NavBar({ abierto, toggleSidebar, onCategoriaSeleccionada }) {
-  const categorias = ['todo', 'Cartuchera', 'Neceser', 'Estuche', 'Mochila'];
+  const categorias = ['todo', 'Cartucheras', 'Necesers', 'Accesorios', 'Bolsos'];
 
   return (
     <aside className={`sidebar ${abierto ? 'abierto' : ''}`}>
