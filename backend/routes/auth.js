@@ -35,6 +35,11 @@ router.post('/login', async (req, res) => {
     const usuario = await Usuario.findOne({ where: { email } });
     if (!usuario) return res.status(404).json({ mensaje: 'Usuario no encontrado' });
 
+    // ⚠️ Agregar esta verificación
+    if (!usuario.verificado) {
+      return res.status(401).json({ mensaje: 'Cuenta no verificada. Revisa tu email.' });
+    }
+
     const esValida = await bcrypt.compare(password, usuario.password);
     if (!esValida) return res.status(401).json({ mensaje: 'Contraseña incorrecta' });
 
@@ -53,5 +58,6 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ mensaje: 'Error en el login', error });
   }
 });
+
 
 export default router;

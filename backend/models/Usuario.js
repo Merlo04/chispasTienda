@@ -1,5 +1,6 @@
-import { DataTypes } from "sequelize";
-import sequelize from "./db.js";
+// models/Usuario.js
+import { DataTypes } from 'sequelize';
+import sequelize from './db.js';
 
 const Usuario = sequelize.define('Usuario', {
   nombre: {
@@ -8,8 +9,8 @@ const Usuario = sequelize.define('Usuario', {
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
     unique: true,
+    allowNull: false,
   },
   password: {
     type: DataTypes.STRING,
@@ -18,10 +19,17 @@ const Usuario = sequelize.define('Usuario', {
   rol: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: 'cliente' // puede ser 'admin' o 'cliente'
-  }
-}, {
-  timestamps: true,
+    defaultValue: 'cliente',
+  },
+  verificado: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  tokenVerificacion: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
 export default Usuario;

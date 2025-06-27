@@ -1,38 +1,38 @@
 import { useState } from "react";
 import axios from "axios";
+import "../App.css";
 
-export default function Registro({ onRegisterSuccess, onClose }) {
+export default function Registro({ onVolverAInicio, onIrALogin }) {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [mensaje, setMensaje] = useState("");
 
-  const handleRegister = async (e) => {
+  const registrar = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Las contraseñas no coinciden");
-      return;
-    }
+    setMensaje("");
 
     try {
-      await axios.post("http://localhost:3001/api/usuarios", {
+      const { data } = await axios.post("http://localhost:3001/api/usuarios", {
         nombre,
         email,
         password,
-        rol: "cliente", // Al registrarse siempre será cliente por defecto
       });
-      alert("Registro exitoso. Ya podés iniciar sesión.");
-      onRegisterSuccess();
+
+      setMensaje(data.mensaje);
     } catch (error) {
-      console.error(error);
-      alert("Error al registrar usuario");
+      if (error.response?.data?.error) {
+        setMensaje(error.response.data.error);
+      } else {
+        setMensaje("Error al registrar");
+      }
     }
   };
 
   return (
-    <div className="register-container">
-      <h2>Registrarse</h2>
-      <form onSubmit={handleRegister}>
+    <div className="login-container">
+      <h2>Registro</h2>
+      <form onSubmit={registrar}>
         <input
           type="text"
           placeholder="Nombre"
@@ -54,18 +54,18 @@ export default function Registro({ onRegisterSuccess, onClose }) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <input
-          type="password"
-          placeholder="Confirmar contraseña"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Registrar</button>
-        <button type="button" onClick={onClose} style={{ marginLeft: "10px" }}>
-          Cancelar
-        </button>
+        <button type="submit">Registrarse</button>
       </form>
+
+      {mensaje && <p className="info">{mensaje}</p>}
+
+      <p>
+        ¿Ya tenés cuenta?{" "}
+        <button onClick={onIrALogin}>Iniciar sesión</button>
+      </p>
+      <p>
+        <button onClick={onVolverAInicio}>Volver a la tienda</button>
+      </p>
     </div>
   );
 }

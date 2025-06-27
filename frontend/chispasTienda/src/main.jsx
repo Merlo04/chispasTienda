@@ -1,10 +1,10 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+import { CarritoProvider } from './components/CarritoContext.jsx';
+import ReactDOM from "react-dom/client";
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <CarritoProvider>
     <App />
-  </StrictMode>,
-)
+  </CarritoProvider>
+);
+
